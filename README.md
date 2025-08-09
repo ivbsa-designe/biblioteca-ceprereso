@@ -1,199 +1,172 @@
-# Tauri + Vanilla TS
+# Sistema de Gestión de Biblioteca CEPRERESO
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
+Sistema de gestión bibliotecaria desarrollado con tecnologías modernas para el manejo integral de prestamos, devoluciones, credenciales y gestión de personas privadas de libertad (PPL).
 
-## Recommended IDE Setup
+## ¿Qué es este proyecto?
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+**Biblioteca CEPRERESO** es una aplicación de escritorio multiplataforma que permite:
 
-Ejemplo de paleta y diseño:
-/* From Uiverse.io by MijailVillegas */ 
-.card {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bolder;
-  color: hsla(0, 0%, 0%, 0.3);
-  z-index: 1;
-  width: 280px;
-  height: 400px;
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  align-content: space-around;
-  text-align: center;
-  grid-template-rows: 0.25fr 0.5fr 0.25fr;
-  padding: 1em;
-  border-radius: 3em;
-  border: solid 0.5em #fafafa;
-  background: #fafafa;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuZGV2L3N2Z2pzIiB2aWV3Qm94PSIwIDAgMjQwMCA4MDAiIG9wYWNpdHk9IjAuODgiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCB4MT0iNTAlIiB5MT0iMCUiIHgyPSI1MCUiIHkyPSIxMDAlIiBpZD0ic3NzdXJmLWdyYWQiPjxzdG9wIHN0b3AtY29sb3I9ImhzbGEoMTc0LCA3NyUsIDUwJSwgMS4wMCkiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwJSI+PC9zdG9wPjxzdG9wIHN0b3AtY29sb3I9ImhzbGEoMTc0LCA3NyUsIDgwJSwgMC4yOSkiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGcgZmlsbD0idXJsKCNzc3N1cmYtZ3JhZCkiIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLDEsMCwtODguNTg3MjQ5NzU1ODU5MzgpIj48cGF0aCBkPSJNIDAgMjkyLjE4MDc4ODA0ODE2NzYgUSA2MDAgNjA5Ljg4OTY2NjQwOTY4NTIgODAwIDI5MC4xNzQ1MDY0NTIzMDIxIFEgMTQwMCA2MzMuODIzNjQ1MDgwOTAxMyAxNjAwIDMxMi45MTEwMzE2MDA3MTgzMyBRIDIyMDAgNTU2LjA5OTYxNDc2MzY4NjEgMjQwMCAzMzcuNzE2MTYyODQ1MjExMSBMIDI0MDAgODAwIEwgMCA4MDAgTCAwIDM0OC40OTg2MjAwNDgzMjYyNSBaIiB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLDAsNDEpIiBvcGFjaXR5PSIwLjA1Ij48L3BhdGg+PHBhdGggZD0iTSAwIDI5Mi4xODA3ODgwNDgxNjc2IFEgNjAwIDYwOS44ODk2NjY0MDk2ODUyIDgwMCAyOTAuMTc0NTA2NDUyMzAyMSBRIDE0MDAgNjMzLjgyMzY0NTA4MDkwMTMgMTYwMCAzMTIuOTExMDMxNjAwNzE4MzMgUSAyMjAwIDU1Ni4wOTk2MTQ3NjM2ODYxIDI0MDAgMzM3LjcxNjE2Mjg0NTIxMTEgTCAyNDAwIDgwMCBMIDAgODAwIEwgMCAzNDguNDk4NjIwMDQ4MzI2MjUgWiIgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsMSwwLDgyKSIgb3BhY2l0eT0iMC4yNCI+PC9wYXRoPjxwYXRoIGQ9Ik0gMCAyOTIuMTgwNzg4MDQ4MTY3NiBRIDYwMCA2MDkuODg5NjY2NDA5Njg1MiA4MDAgMjkwLjE3NDUwNjQ1MjMwMjEgUSAxNDAwIDYzMy44MjM2NDUwODA5MDEzIDE2MDAgMzEyLjkxMTAzMTYwMDcxODMzIFEgMjIwMCA1NTYuMDk5NjE0NzYzNjg2MSAyNDAwIDMzNy43MTYxNjI4NDUyMTExIEwgMjQwMCA4MDAgTCAwIDgwMCBMIDAgMzQ4LjQ5ODYyMDA0ODMyNjI1IFoiIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLDEsMCwxMjMpIiBvcGFjaXR5PSIwLjQzIj48L3BhdGg+PHBhdGggZD0iTSAwIDI5Mi4xODA3ODgwNDgxNjc2IFEgNjAwIDYwOS44ODk2NjY0MDk2ODUyIDgwMCAyOTAuMTc0NTA2NDUyMzAyMSBRIDE0MDAgNjMzLjgyMzY0NTA4MDkwMTMgMTYwMCAzMTIuOTExMDMxNjAwNzE4MzMgUSAyMjAwIDU1Ni4wOTk2MTQ3NjM2ODYxIDI0MDAgMzM3LjcxNjE2Mjg0NTIxMTEgTCAyNDAwIDgwMCBMIDAgODAwIEwgMCAzNDguNDk4NjIwMDQ4MzI2MjUgWiIgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsMSwwLDE2NCkiIG9wYWNpdHk9IjAuNjIiPjwvcGF0aD48cGF0aCBkPSJNIDAgMjkyLjE4MDc4ODA0ODE2NzYgUSA2MDAgNjA5Ljg4OTY2NjQwOTY4NTIgODAwIDI5MC4xNzQ1MDY0NTIzMDIxIFEgMTQwMCA2MzMuODIzNjQ1MDgwOTAxMyAxNjAwIDMxMi45MTEwMzE2MDA3MTgzMyBRIDIyMDAgNTU2LjA5OTYxNDc2MzY4NjEgMjQwMCAzMzcuNzE2MTYyODQ1MjExMSBMIDI0MDAgODAwIEwgMCA4MDAgTCAwIDM0OC40OTg2MjAwNDgzMjYyNSBaIiB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwxLDAsMjA1KSIgb3BhY2l0eT0iMC44MSI+PC9wYXRoPjxwYXRoIGQ9Ik0gMCAyOTIuMTgwNzg4MDQ4MTY3NiBRIDYwMCA2MDkuODg5NjY2NDA5Njg1MiA4MDAgMjkwLjE3NDUwNjQ1MjMwMjEgUSAxNDAwIDYzMy44MjM2NDUwODA5MDEzIDE2MDAgMzEyLjkxMTAzMTYwMDcxODMzIFEgMjIwMCA1NTYuMDk5NjE0NzYzNjg2MSAyNDAwIDMzNy43MTYxNjI4NDUyMTExIEwgMjQwMCA4MDAgTCAwIDgwMCBMIDAgMzQ4LjQ5ODYyMDA0ODMyNjI1IFoiIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLDEsMCwyNDYpIiBvcGFjaXR5PSIxLjAwIj48L3BhdGg+PC9nPjwvc3ZnPg==");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: revert;
-  box-shadow: 5px 5px 7px hsla(0, 0%, 84%, 0.447), -3px -4px 7px rgba(255, 255, 255, 0.3843137255);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  transition: background-position 1s ease-in;
-  animation: blinkShadowsFilter 8s ease-in infinite;
-}
+- **Gestión de PPL**: Registro y administración de personas privadas de libertad con información de dormitorio, sección y estancia
+- **Sistema de Credenciales**: Emisión y gestión de credenciales con fotografía para PPL
+- **Gestión de Biblioteca**: Catálogo completo de libros con sistema de búsqueda
+- **Préstamos y Devoluciones**: Control de préstamos con seguimiento de fechas y estado
+- **Sistema de Sanciones**: Registro y gestión de sanciones por incumplimientos
+- **Autenticación de Usuarios**: Sistema de login con roles (admin/operador)
 
-.card .heading {
-  align-self: baseline;
-  display: grid;
-  letter-spacing: 3px;
-}
+## Tecnologías Utilizadas
 
-.card .heading span {
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: #afafaf;
-  background-color: transparent;
-  transition: all 1s ease-in;
-  transform: translateY(-20%);
-  text-align: center;
-  font-size: 3.5em;
-}
+### Frontend
+- **React 19** con **TypeScript** - Framework principal de UI
+- **Material-UI (MUI)** - Componentes y sistema de diseño
+- **Vite** - Herramienta de build y desarrollo
+- **Emotion** - Librería CSS-in-JS para estilos
 
-.card button {
-  align-self: flex-end;
-  font-size: 1em;
-  border-style: none;
-  padding: 1em;
-  border-radius: 5em;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bolder;
-  text-shadow: 3px 3px 5px #48beb3, -3px -3px 5px #68ffff;
-  color: #e0fff8;
-  background: #12a597;
-  background: linear-gradient(145deg, #5ef8e9, #4fd1c4);
-  box-shadow: 3px 3px 5px #48beb3, -3px -3px 5px #68ffff;
-}
+### Backend
+- **Rust** - Lenguaje de programación del backend
+- **Tauri 2** - Framework para aplicaciones de escritorio multiplataforma
+- **SQLite** - Base de datos embebida
 
-.card button:active {
-  background: #57e9db;
-  box-shadow: inset 3px 3px 5px #47bfb4, inset -3px -3px 5px #67ffff;
-}
+### Herramientas y Dependencias
+- **bcryptjs** - Encriptación de contraseñas
+- **@tauri-apps/plugin-sql** - Plugin para manejo de base de datos
+- **@tauri-apps/plugin-opener** - Plugin para abrir archivos/URLs
 
-.card button:hover {
-  cursor: pointer;
-}
+## Base de Datos
 
-.card:hover {
-  background-position: right;
-}
+El sistema utiliza **SQLite** como base de datos embebida con las siguientes tablas:
 
-.card:hover .heading span {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuZGV2L3N2Z2pzIiB2aWV3Qm94PSIwIDAgODAwIDgwMCI+PGRlZnM+PHJhZGlhbEdyYWRpZW50IGlkPSJjY2NpcmN1bGFyLWdyYWQiIHI9IjUwJSIgY3g9IjUwJSIgY3k9IjUwJSI+CiAgICAgICAgIDxzdG9wIG9mZnNldD0iMTUlIiBzdG9wLWNvbG9yPSIjYWMzZDAwIiBzdG9wLW9wYWNpdHk9IjAuNSI+PC9zdG9wPgogICAgICAgICA8c3RvcCBvZmZzZXQ9Ijc1JSIgc3RvcC1jb2xvcj0iaHNsKDI1LCA4MyUsIDQ5JSkiIHN0b3Atb3BhY2l0eT0iMSI+PC9zdG9wPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZjZTc4IiBzdG9wLW9wYWNpdHk9IjEiPjwvc3RvcD4KICAgICAgICA8L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48ZyBmaWxsPSJ1cmwoI2NjY2lyY3VsYXItZ3JhZCkiPjxjaXJjbGUgcj0iNjQzLjUiIGN4PSI0MDAiIGN5PSI0MDAiPjwvY2lyY2xlPjxjaXJjbGUgcj0iNTg1IiBjeD0iNDAwIiBjeT0iNDAwIj48L2NpcmNsZT48Y2lyY2xlIHI9IjUyNi41IiBjeD0iNDAwIiBjeT0iNDAwIj48L2NpcmNsZT48Y2lyY2xlIHI9IjQ2OCIgY3g9IjQwMCIgY3k9IjQwMCI+PC9jaXJjbGU+PGNpcmNsZSByPSI0MDkuNSIgY3g9IjQwMCIgY3k9IjQwMCI+PC9jaXJjbGU+PGNpcmNsZSByPSIzNTEiIGN4PSI0MDAiIGN5PSI0MDAiPjwvY2lyY2xlPjxjaXJjbGUgcj0iMjkyLjUiIGN4PSI0MDAiIGN5PSI0MDAiPjwvY2lyY2xlPjxjaXJjbGUgcj0iMjM0IiBjeD0iNDAwIiBjeT0iNDAwIj48L2NpcmNsZT48Y2lyY2xlIHI9IjE3NS41IiBjeD0iNDAwIiBjeT0iNDAwIj48L2NpcmNsZT48Y2lyY2xlIHI9IjExNyIgY3g9IjQwMCIgY3k9IjQwMCI+PC9jaXJjbGU+PC9nPjwvc3ZnPg==");
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+- **ppl**: Personas privadas de libertad (ID, nombre, dormitorio, sección, estancia)
+- **credenciales**: Credenciales con foto vinculadas a PPL
+- **libros**: Catálogo de libros de la biblioteca
+- **prestamos**: Registro de préstamos con fechas y estado
+- **prestamos_libros**: Relación many-to-many entre préstamos y libros
+- **sanciones**: Sistema de sanciones por incumplimientos
+- **usuarios**: Usuarios del sistema con autenticación
 
-.content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 1s ease-in;
-}
+## Configuración y Desarrollo
 
-.content .item {
-  width: -moz-fit-content;
-  width: fit-content;
-  display: flex;
-  gap: 1em;
-  align-items: center;
-  transition: all 0.8s ease-in-out;
-}
+### Requisitos Previos
+- Node.js (v18 o superior)
+- Rust (última versión estable)
+- Visual Studio Code (recomendado)
 
-.content .item span {
-  transition: all 0.5s ease-in;
-  width: 0%;
-  background: transparent;
-  font-size: 1.2em;
-}
+### Instalación
+```bash
+# Clonar el repositorio
+git clone https://github.com/PakoOlivo/biblioteca-ceprereso.git
+cd biblioteca-ceprereso
 
-.content .item--create {
-  transition: all 0.8s ease-in-out;
-  transform: translateX(100%);
-}
+# Instalar dependencias
+npm install
+```
 
-.content .item--post {
-  transition: all 0.8s ease-in-out;
-  transform: translateX(80%);
-}
+### Desarrollo Local
+```bash
+# Ejecutar en modo desarrollo (frontend + backend)
+npm run tauri dev
+```
 
-.content .item--inspire {
-  transition: all 0.8s ease-in-out;
-  transform: translateX(20%);
-}
+### Build de Producción
+```bash
+# Generar binarios multiplataforma
+npm run tauri build
+```
 
-.content .item--inspire svg {
-  box-shadow: 4px 4px 7px #47bfb4, -4px -4px 7px #67ffff;
-}
+## Entorno de Desarrollo Recomendado
 
-.content svg {
-  border-radius: 1em;
-  width: 2.5em;
-  height: 2.5em;
-  padding: 0.5em;
-  background: #fafafa;
-  box-shadow: 4px 4px 7px #d5d5d5, -4px -4px 7px #ffffff;
-}
+- **[VS Code](https://code.visualstudio.com/)** + [Extensión Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 
-.content:hover .item {
-  padding-left: 2em;
-}
+## Arquitectura del Proyecto
 
-.content:hover .item--create {
-  transform: translateX(20%);
-}
+```
+├── src/                           # Frontend React + TypeScript
+│   ├── App.tsx                   # Componente principal con login
+│   ├── Dashboard.tsx             # Panel principal del sistema
+│   ├── main.tsx                  # Punto de entrada React
+│   ├── styles.css                # Estilos globales modernos
+│   ├── forms/                    # Formularios de gestión
+│   │   ├── formularioPPL.ts      # Registro de PPL
+│   │   ├── formularioLibro.ts    # Gestión de libros
+│   │   ├── formularioPrestamo.ts # Préstamos
+│   │   ├── formularioDevolucion.ts # Devoluciones
+│   │   ├── formularioCredencial.ts # Credenciales
+│   │   └── formularioSancion.ts  # Sanciones
+│   └── assets/                   # Recursos estáticos
+│
+├── src-tauri/                    # Backend Rust + Tauri
+│   ├── src/
+│   │   ├── main.rs              # Punto de entrada Rust
+│   │   └── lib.rs               # Comandos Tauri (validar_login, etc)
+│   ├── sql/                     # Módulos de base de datos
+│   │   ├── init.ts              # Inicialización de tablas
+│   │   ├── usuarios.ts          # Gestión de usuarios
+│   │   ├── ppl.ts               # PPL
+│   │   ├── libros.ts            # Libros
+│   │   ├── prestamos.ts         # Préstamos
+│   │   ├── prestamos_libros.ts  # Relación préstamos-libros
+│   │   ├── credenciales.ts      # Credenciales
+│   │   └── sanciones.ts         # Sanciones
+│   ├── Cargo.toml               # Dependencias Rust
+│   └── tauri.conf.json          # Configuración Tauri
+│
+├── package.json                 # Dependencias Node.js
+├── vite.config.ts              # Configuración Vite
+└── tsconfig.json               # Configuración TypeScript
+```
 
-.content:hover .item--post {
-  transform: translateX(20%);
-}
+## Características Principales
 
-.content:hover .item--inspire {
-  transform: translateX(20%);
-}
+### 🔐 Sistema de Autenticación
+- Login con usuarios predefinidos (admin/operadores)
+- Roles diferenciados con permisos específicos
+- Sesión persistente durante el uso
 
-.item:hover {
-  gap: 2em;
-  color: hsl(19, 78%, 65%);
-  cursor: pointer;
-}
+### 👥 Gestión de PPL
+- Registro automático con IDs únicos por ubicación
+- Formato: `{dormitorio}-{sección}-{estancia}-{consecutivo}`
+- Validación de duplicados por ubicación
 
-.item:hover span {
-  letter-spacing: 2px;
-  padding-inline: 1rem;
-  border-radius: 1em;
-  color: rgba(0, 0, 0, 0.6);
-}
+### 📚 Sistema de Biblioteca
+- Catálogo completo de libros
+- Sistema de búsqueda y filtros
+- Control de inventario
 
-.item:hover svg {
-  box-shadow: inset 4px 4px 7px #d5d5d5, inset -4px -4px 7px #ffffff;
-}
+### 📋 Préstamos y Devoluciones
+- Seguimiento completo de préstamos
+- Control de fechas de vencimiento
+- Historial de transacciones
+- Estados: activo, devuelto, vencido
 
-@keyframes blinkShadowsFilter {
-  0% {
-    filter: drop-shadow(23px 12px 28px hsla(218, 87%, 88%, 0.3)) drop-shadow(-20px -18px 28px hsla(171, 80%, 73%, 0.3));
-  }
+### 🆔 Sistema de Credenciales
+- Emisión de credenciales con fotografía
+- Vinculación directa con PPL
+- Control de fechas de emisión
 
-  25% {
-    filter: drop-shadow(23px -12px 24px hsla(218, 87%, 88%, 0.3)) drop-shadow(-20px 18px 24px hsla(171, 100%, 93%, 0.3));
-  }
+### ⚠️ Sistema de Sanciones
+- Registro de incumplimientos
+- Seguimiento de sanciones por PPL
+- Historial completo de infracciones
 
-  50% {
-    filter: drop-shadow(23px 12px 30px hsla(218, 100%, 88%, 0.3)) drop-shadow(-20px 18px 30px hsla(171, 95%, 83%, 0.3));
-  }
+## Scripts Disponibles
 
-  75% {
-    filter: drop-shadow(20px -18px 25px hsla(218, 87%, 88%, 0.3)) drop-shadow(-20px 20px 25px hsla(171, 100%, 80%, 0.3));
-  }
+```bash
+npm run dev          # Servidor de desarrollo Vite
+npm run build        # Build de producción (TS + Vite)
+npm run preview      # Preview del build
+npm run tauri dev    # Desarrollo completo (frontend + backend)
+npm run tauri build  # Build de aplicación nativa
+```
 
-  to {
-    filter: drop-shadow(23px 12px 28px hsla(218, 87%, 88%, 0.3)) drop-shadow(-20px -18px 28px hsla(171, 80%, 73%, 0.3));
-  }
-}
+---
+
+## Contribuir
+
+1. Fork del proyecto
+2. Crear rama feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit de cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Crear Pull Request
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
