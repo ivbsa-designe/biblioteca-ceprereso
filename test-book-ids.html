@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba - Sistema de IDs de Libros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input, select {
+            width: 200px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .danger {
+            background: #dc3545;
+        }
+        .danger:hover {
+            background: #c82333;
+        }
+        .success {
+            background: #28a745;
+        }
+        .success:hover {
+            background: #218838;
+        }
+        .info {
+            background: #17a2b8;
+        }
+        .info:hover {
+            background: #138496;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f8f9fa;
+        }
+        .vacant-spaces {
+            margin-top: 20px;
+        }
+        .vacant-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #e9ecef;
+            border-radius: 5px;
+            border-left: 4px solid #17a2b8;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Prueba - Sistema de IDs Automáticos para Libros</h1>
+        <p>Esta página permite probar la funcionalidad de generación automática de IDs para libros según el formato: <strong>Estante + Nivel + Posición</strong> (ej: C434)</p>
+        
+        <!-- Sección de Registro de Libros -->
+        <div class="section">
+            <h3>📚 Registrar Nuevo Libro</h3>
+            <form id="form-libro">
+                <div class="form-group">
+                    <label for="titulo">Título del Libro:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="autor">Autor:</label>
+                    <input type="text" id="autor" name="autor" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <input type="text" id="genero" name="genero">
+                </div>
+                
+                <div class="form-group">
+                    <label for="estante">Estante (A-Z):</label>
+                    <input type="text" id="estante" name="estante" pattern="[A-Z]" maxlength="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nivel">Nivel (1-99):</label>
+                    <input type="number" id="nivel" name="nivel" min="1" max="99" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="posicion">Posición (opcional - auto si vacío):</label>
+                    <input type="number" id="posicion" name="posicion" min="1" max="99" placeholder="Auto">
+                </div>
+                
+                <button type="submit">Registrar Libro</button>
+            </form>
+        </div>
+
+        <!-- Sección de Dar de Baja -->
+        <div class="section">
+            <h3>❌ Dar de Baja Libro</h3>
+            <form id="form-baja-libro">
+                <div class="form-group">
+                    <label for="id-libro-baja">ID del Libro a dar de baja:</label>
+                    <input type="text" id="id-libro-baja" name="id-libro-baja" placeholder="ej: C434" required>
+                </div>
+                
+                <button type="submit" class="danger">Dar de Baja</button>
+            </form>
+        </div>
+
+        <!-- Sección de Consultas -->
+        <div class="section">
+            <h3>🔍 Consultas</h3>
+            <button id="btn-espacios-vacantes" class="info">Listar Espacios Vacantes</button>
+            <button id="btn-listar-libros" class="success">Listar Todos los Libros</button>
+            <button id="btn-barcode-test" class="info">Generar Código de Barras de Prueba</button>
+        </div>
+
+        <!-- Área de Resultados -->
+        <div id="lista-espacios-vacantes" class="vacant-spaces"></div>
+        
+        <div id="resultado" class="result" style="display: none;">
+            <h4>Resultado:</h4>
+            <div id="contenido-resultado"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Importar las funciones necesarias desde el archivo del formulario
+        import { setupFormularioLibro, generarCodigoBarras, exportarCodigoBarrasLibro } from './src/forms/formularioLibro.js';
+        import Database from "@tauri-apps/plugin-sql";
+
+        // Configurar el formulario
+        setupFormularioLibro();
+
+        // Función para mostrar resultados
+        function mostrarResultado(contenido) {
+            const resultado = document.getElementById('resultado');
+            const contenidoResultado = document.getElementById('contenido-resultado');
+            contenidoResultado.innerHTML = contenido;
+            resultado.style.display = 'block';
+        }
+
+        // Función para listar todos los libros
+        async function listarTodosLosLibros() {
+            try {
+                const db = await Database.load('sqlite:db_biblioteca.db');
+                const libros = await db.select(`
+                    SELECT id, titulo, autor, genero, estante, nivel, posicion, ubicacion, estado, fecha_ingreso 
+                    FROM libros 
+                    ORDER BY estante, nivel, posicion
+                `);
+                
+                if (libros.length === 0) {
+                    mostrarResultado('<p>No hay libros registrados.</p>');
+                    return;
+                }
+
+                const htmlLibros = libros.map(libro => `
+                    <div class="vacant-item" style="border-left-color: ${libro.estado === 'disponible' ? '#28a745' : '#dc3545'}">
+                        <strong>${libro.id}</strong> - ${libro.titulo}<br>
+                        <small>Autor: ${libro.autor} | Género: ${libro.genero || 'N/A'}</small><br>
+                        <small>Estado: ${libro.estado} | Ubicación: ${libro.ubicacion}</small><br>
+                        <small>Fecha: ${libro.fecha_ingreso}</small>
+                    </div>
+                `).join('');
+                
+                mostrarResultado(`
+                    <h4>Libros Registrados (${libros.length})</h4>
+                    ${htmlLibros}
+                `);
+                
+            } catch (error) {
+                mostrarResultado(`<p style="color: red;">Error al listar libros: ${error.message}</p>`);
+            }
+        }
+
+        // Función de prueba para código de barras
+        async function probarCodigoBarras() {
+            try {
+                const db = await Database.load('sqlite:db_biblioteca.db');
+                const libros = await db.select('SELECT id FROM libros LIMIT 1');
+                
+                if (libros.length === 0) {
+                    mostrarResultado('<p style="color: red;">No hay libros para generar código de barras.</p>');
+                    return;
+                }
+                
+                const idLibro = libros[0].id;
+                const codigoBarras = await exportarCodigoBarrasLibro(idLibro);
+                
+                mostrarResultado(`
+                    <h4>Código de Barras Generado</h4>
+                    <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace;">
+${codigoBarras}
+                    </pre>
+                `);
+                
+            } catch (error) {
+                mostrarResultado(`<p style="color: red;">Error al generar código de barras: ${error.message}</p>`);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('btn-listar-libros').addEventListener('click', listarTodosLosLibros);
+        document.getElementById('btn-barcode-test').addEventListener('click', probarCodigoBarras);
+
+        // Cargar libros al inicio
+        window.addEventListener('load', () => {
+            listarTodosLosLibros();
+        });
+
+        console.log('🔧 Sistema de prueba de IDs de libros cargado');
+        console.log('📝 Use los formularios para probar la funcionalidad');
+        console.log('🔍 Verifique que los IDs se generen automáticamente en formato: EstanteNivelPosición');
+    </script>
+</body>
+</html>

@@ -69,12 +69,15 @@ pub fn run() {
                     );
                     
                     CREATE TABLE IF NOT EXISTS libros (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        id TEXT PRIMARY KEY,
                         titulo TEXT NOT NULL,
-                        autor TEXT NOT NULL,
-                        isbn TEXT UNIQUE,
-                        categoria TEXT,
-                        disponible INTEGER DEFAULT 1,
+                        autor TEXT,
+                        genero TEXT,
+                        estante TEXT NOT NULL,
+                        nivel INTEGER NOT NULL,
+                        posicion INTEGER NOT NULL,
+                        ubicacion TEXT,
+                        estado TEXT DEFAULT 'disponible',
                         fecha_ingreso DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
                     ",
