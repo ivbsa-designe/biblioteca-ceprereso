@@ -10,9 +10,10 @@ async fn crear_usuarios_defecto() -> Result<(), String> {
 #[tauri::command]
 async fn validar_login(usuario: String, password: String) -> Result<serde_json::Value, String> {
     // Validación hardcodeada por ahora para probar
-    if (usuario == "admin" && password == "admin123") ||
-       (usuario == "operador_matutino" && password == "operador1") ||
-       (usuario == "operador_vespertino" && password == "operador2") {
+    if (usuario == "admin" && password == "admin123")
+        || (usuario == "operador_matutino" && password == "operador1")
+        || (usuario == "operador_vespertino" && password == "operador2")
+    {
         Ok(serde_json::json!({
             "success": true,
             "user": {
@@ -39,12 +40,15 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_sql::Builder::default()
-            .add_migrations("sqlite:biblioteca.db", vec![
-                Migration {
-                    version: 1,
-                    description: "create_usuarios_table",
-                    sql: "CREATE TABLE IF NOT EXISTS usuarios (
+        .plugin(
+            tauri_plugin_sql::Builder::default()
+                .add_migrations(
+                    "sqlite:biblioteca.db",
+                    vec![
+                        Migration {
+                            version: 1,
+                            description: "create_usuarios_table",
+                            sql: "CREATE TABLE IF NOT EXISTS usuarios (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         usuario TEXT UNIQUE NOT NULL,
                         password TEXT NOT NULL,
@@ -52,12 +56,12 @@ pub fn run() {
                         activo INTEGER DEFAULT 1,
                         fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
                     );",
-                    kind: MigrationKind::Up,
-                },
-                Migration {
-                    version: 2,
-                    description: "create_other_tables",
-                    sql: "
+                            kind: MigrationKind::Up,
+                        },
+                        Migration {
+                            version: 2,
+                            description: "create_other_tables",
+                            sql: "
                     CREATE TABLE IF NOT EXISTS ppl (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         nombre TEXT NOT NULL,
@@ -78,10 +82,12 @@ pub fn run() {
                         fecha_ingreso DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
                     ",
-                    kind: MigrationKind::Up,
-                },
-            ])
-            .build())
+                            kind: MigrationKind::Up,
+                        },
+                    ],
+                )
+                .build(),
+        )
         .invoke_handler(tauri::generate_handler![
             greet,
             crear_usuarios_defecto,

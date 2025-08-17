@@ -7,7 +7,7 @@ import {
   Avatar,
   Chip,
   IconButton,
-  Paper
+  Paper,
 } from '@mui/material';
 import {
   LibraryBooks,
@@ -19,7 +19,7 @@ import {
   TrendingUp,
   Logout,
   Dashboard as DashboardIcon,
-  AccessTime
+  AccessTime,
 } from '@mui/icons-material';
 
 interface Usuario {
@@ -34,105 +34,109 @@ interface DashboardProps {
   onNavigate: (section: string) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) => {
+const Dashboard: React.FC<DashboardProps> = ({
+  usuario,
+  onLogout,
+  onNavigate,
+}) => {
   const isAdmin = usuario.rol === 'admin';
 
   // Opciones para administrador
   const adminOptions = [
-    { 
-      title: 'Gestión de Usuarios', 
+    {
+      title: 'Gestión de Usuarios',
       description: 'Administrar usuarios del sistema',
-      icon: <Person sx={{ fontSize: 40 }} />, 
+      icon: <Person sx={{ fontSize: 40 }} />,
       color: '#6366f1',
-      section: 'usuarios'
+      section: 'usuarios',
     },
-    { 
-      title: 'Gestión de Libros', 
+    {
+      title: 'Gestión de Libros',
       description: 'Agregar, editar y eliminar libros',
-      icon: <LibraryBooks sx={{ fontSize: 40 }} />, 
+      icon: <LibraryBooks sx={{ fontSize: 40 }} />,
       color: '#8b5cf6',
-      section: 'libros'
+      section: 'libros',
     },
-    { 
-      title: 'Préstamos', 
+    {
+      title: 'Préstamos',
       description: 'Gestionar préstamos de libros',
-      icon: <Assignment sx={{ fontSize: 40 }} />, 
+      icon: <Assignment sx={{ fontSize: 40 }} />,
       color: '#06b6d4',
-      section: 'prestamos'
+      section: 'prestamos',
     },
-    { 
-      title: 'Devoluciones', 
+    {
+      title: 'Devoluciones',
       description: 'Procesar devoluciones',
-      icon: <KeyboardReturn sx={{ fontSize: 40 }} />, 
+      icon: <KeyboardReturn sx={{ fontSize: 40 }} />,
       color: '#10b981',
-      section: 'devoluciones'
+      section: 'devoluciones',
     },
-    { 
-      title: 'Consultas', 
+    {
+      title: 'Consultas',
       description: 'Buscar libros y usuarios',
-      icon: <Search sx={{ fontSize: 40 }} />, 
+      icon: <Search sx={{ fontSize: 40 }} />,
       color: '#f59e0b',
-      section: 'consultas'
+      section: 'consultas',
     },
-    { 
-      title: 'Reportes', 
+    {
+      title: 'Reportes',
       description: 'Estadísticas y reportes',
-      icon: <TrendingUp sx={{ fontSize: 40 }} />, 
+      icon: <TrendingUp sx={{ fontSize: 40 }} />,
       color: '#ef4444',
-      section: 'reportes'
+      section: 'reportes',
     },
-    { 
-      title: 'Configuración', 
+    {
+      title: 'Configuración',
       description: 'Configuración del sistema',
-      icon: <Settings sx={{ fontSize: 40 }} />, 
+      icon: <Settings sx={{ fontSize: 40 }} />,
       color: '#64748b',
-      section: 'configuracion'
-    }
+      section: 'configuracion',
+    },
   ];
 
   // Opciones para operadores
   const operatorOptions = [
-    { 
-      title: 'Préstamos', 
+    {
+      title: 'Préstamos',
       description: 'Gestionar préstamos de libros',
-      icon: <Assignment sx={{ fontSize: 40 }} />, 
+      icon: <Assignment sx={{ fontSize: 40 }} />,
       color: '#06b6d4',
-      section: 'prestamos'
+      section: 'prestamos',
     },
-    { 
-      title: 'Devoluciones', 
+    {
+      title: 'Devoluciones',
       description: 'Procesar devoluciones',
-      icon: <KeyboardReturn sx={{ fontSize: 40 }} />, 
+      icon: <KeyboardReturn sx={{ fontSize: 40 }} />,
       color: '#10b981',
-      section: 'devoluciones'
+      section: 'devoluciones',
     },
-    { 
-      title: 'Consultas', 
+    {
+      title: 'Consultas',
       description: 'Buscar libros y usuarios',
-      icon: <Search sx={{ fontSize: 40 }} />, 
+      icon: <Search sx={{ fontSize: 40 }} />,
       color: '#f59e0b',
-      section: 'consultas'
-    }
+      section: 'consultas',
+    },
   ];
 
   const options = isAdmin ? adminOptions : operatorOptions;
 
   const getCurrentTime = () => {
     const now = new Date();
-    return now.toLocaleTimeString('es-ES', { 
-      hour: '2-digit', 
+    return now.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: true 
+      hour12: true,
     });
   };
 
   const getCurrentDate = () => {
     const now = new Date();
-    return now.toLocaleDateString('es-ES', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return now.toLocaleDateString('es-ES', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   };
 
@@ -159,56 +163,72 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
                       radial-gradient(circle at 40% 40%, #ff8c42 0%, transparent 50%)`,
           opacity: 0.08,
           zIndex: 1,
-        }
+        },
       }}
       className="dashboard-bg"
     >
       {/* Header */}
-      <Paper elevation={0} sx={{ 
-        p: 4, 
-        m: 3, 
-        borderRadius: '24px',
-        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-        backdropFilter: 'blur(20px) saturate(1.8)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: `
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          m: 3,
+          borderRadius: '24px',
+          background:
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+          backdropFilter: 'blur(20px) saturate(1.8)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: `
           0 0 40px rgba(255, 107, 53, 0.2),
           0 0 80px rgba(32, 212, 212, 0.15),
           0 8px 32px rgba(0, 0, 0, 0.3)
         `,
-        zIndex: 2,
-        position: 'relative',
-      }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          zIndex: 2,
+          position: 'relative',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <Avatar sx={{ 
-              background: 'linear-gradient(135deg, #ff6b35 0%, #20d4d4 100%)',
-              width: 64, 
-              height: 64,
-              fontSize: '1.8rem',
-              fontWeight: 700,
-              boxShadow: `
+            <Avatar
+              sx={{
+                background: 'linear-gradient(135deg, #ff6b35 0%, #20d4d4 100%)',
+                width: 64,
+                height: 64,
+                fontSize: '1.8rem',
+                fontWeight: 700,
+                boxShadow: `
                 0 0 30px rgba(255, 107, 53, 0.4),
                 0 0 60px rgba(32, 212, 212, 0.3),
                 0 8px 16px rgba(0, 0, 0, 0.3)
               `,
-              border: '2px solid rgba(255, 255, 255, 0.2)',
-            }}>
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+              }}
+            >
               {usuario.nombre.charAt(0).toUpperCase()}
             </Avatar>
             <Box>
-              <Typography variant="h4" fontWeight="700" sx={{ 
-                color: 'rgba(255, 255, 255, 0.95)',
-                fontFamily: 'Inter, sans-serif',
-                textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                mb: 1,
-              }}>
+              <Typography
+                variant="h4"
+                fontWeight="700"
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  fontFamily: 'Inter, sans-serif',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                  mb: 1,
+                }}
+              >
                 ¡Bienvenido, {usuario.nombre}!
               </Typography>
-              <Chip 
-                label={isAdmin ? 'Administrador' : 'Operador'} 
+              <Chip
+                label={isAdmin ? 'Administrador' : 'Operador'}
                 sx={{
-                  background: isAdmin 
+                  background: isAdmin
                     ? 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)'
                     : 'linear-gradient(135deg, #20d4d4 0%, #48beb3 100%)',
                   color: '#fff',
@@ -223,54 +243,66 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
               />
             </Box>
           </Box>
-          
+
           {/* Time Card - Estilo inspirado en tus capturas */}
-          <Card sx={{ 
-            background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #20d4d4 100%)',
-            color: 'white',
-            minWidth: 220,
-            borderRadius: '20px',
-            position: 'relative',
-            boxShadow: `
+          <Card
+            sx={{
+              background:
+                'linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #20d4d4 100%)',
+              color: 'white',
+              minWidth: 220,
+              borderRadius: '20px',
+              position: 'relative',
+              boxShadow: `
               0 0 30px rgba(255, 107, 53, 0.4),
               0 0 60px rgba(32, 212, 212, 0.3),
               0 8px 32px rgba(0, 0, 0, 0.3)
             `,
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-          }}>
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            }}
+          >
             <CardContent sx={{ textAlign: 'center', py: 3 }}>
               <AccessTime sx={{ fontSize: 24, mb: 1, opacity: 0.9 }} />
-              <Typography variant="h3" fontWeight="800" sx={{ 
-                fontFamily: 'Inter, sans-serif',
-                textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-              }}>
+              <Typography
+                variant="h3"
+                fontWeight="800"
+                sx={{
+                  fontFamily: 'Inter, sans-serif',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                }}
+              >
                 {getCurrentTime()}
               </Typography>
-              <Typography variant="body1" sx={{ 
-                opacity: 0.9, 
-                textTransform: 'capitalize',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 500,
-              }}>
+              <Typography
+                variant="body1"
+                sx={{
+                  opacity: 0.9,
+                  textTransform: 'capitalize',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 500,
+                }}
+              >
                 {getCurrentDate()}
               </Typography>
             </CardContent>
           </Card>
 
-          <IconButton 
+          <IconButton
             onClick={onLogout}
-            sx={{ 
-              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%)',
+            sx={{
+              background:
+                'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%)',
               color: '#ef4444',
               width: 56,
               height: 56,
               border: '1px solid rgba(239, 68, 68, 0.3)',
               boxShadow: '0 4px 16px rgba(239, 68, 68, 0.2)',
-              '&:hover': { 
-                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.2) 100%)',
+              '&:hover': {
+                background:
+                  'linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.2) 100%)',
                 transform: 'translateY(-2px)',
                 boxShadow: '0 6px 24px rgba(239, 68, 68, 0.3)',
-              }
+              },
             }}
           >
             <Logout />
@@ -279,86 +311,107 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
       </Paper>
 
       {/* Welcome Message */}
-      <Paper elevation={0} sx={{ 
-        p: 5, 
-        m: 3, 
-        borderRadius: '24px',
-        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-        backdropFilter: 'blur(20px) saturate(1.8)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: `
+      <Paper
+        elevation={0}
+        sx={{
+          p: 5,
+          m: 3,
+          borderRadius: '24px',
+          background:
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+          backdropFilter: 'blur(20px) saturate(1.8)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: `
           0 0 40px rgba(255, 107, 53, 0.2),
           0 0 80px rgba(32, 212, 212, 0.15),
           0 8px 32px rgba(0, 0, 0, 0.3)
         `,
-        textAlign: 'center',
-        zIndex: 2,
-        position: 'relative',
-      }}>
-        <Typography variant="body2" sx={{
-          fontWeight: 400,
-          color: 'rgba(255, 255, 255, 0.7)',
-          letterSpacing: 2,
-          textTransform: 'uppercase',
-          fontSize: '0.875rem',
-          mb: 1,
-          fontFamily: 'Inter, sans-serif',
-        }}>
+          textAlign: 'center',
+          zIndex: 2,
+          position: 'relative',
+        }}
+      >
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 400,
+            color: 'rgba(255, 255, 255, 0.7)',
+            letterSpacing: 2,
+            textTransform: 'uppercase',
+            fontSize: '0.875rem',
+            mb: 1,
+            fontFamily: 'Inter, sans-serif',
+          }}
+        >
           sistema de biblioteca
         </Typography>
-        <Typography variant="h2" sx={{
-          fontWeight: 800,
-          background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa726 100%)',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          letterSpacing: 2,
-          textShadow: '0 0 30px rgba(255, 107, 53, 0.5), 0 0 60px rgba(255, 140, 66, 0.3)',
-          mb: 3,
-          fontFamily: 'Inter, sans-serif',
-          fontSize: { xs: '2.5rem', sm: '3.5rem' },
-          filter: 'drop-shadow(0 4px 8px rgba(255, 107, 53, 0.3))',
-        }}>
+        <Typography
+          variant="h2"
+          sx={{
+            fontWeight: 800,
+            background:
+              'linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa726 100%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            letterSpacing: 2,
+            textShadow:
+              '0 0 30px rgba(255, 107, 53, 0.5), 0 0 60px rgba(255, 140, 66, 0.3)',
+            mb: 3,
+            fontFamily: 'Inter, sans-serif',
+            fontSize: { xs: '2.5rem', sm: '3.5rem' },
+            filter: 'drop-shadow(0 4px 8px rgba(255, 107, 53, 0.3))',
+          }}
+        >
           CEPRERESO
         </Typography>
-        <DashboardIcon sx={{ 
-          fontSize: 56, 
-          color: 'rgba(255, 255, 255, 0.8)', 
-          mb: 2,
-          filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))',
-        }} />
-        <Typography variant="h6" sx={{ 
-          color: 'rgba(255, 255, 255, 0.8)', 
-          maxWidth: 600, 
-          mx: 'auto',
-          fontFamily: 'Inter, sans-serif',
-          fontWeight: 400,
-          lineHeight: 1.6,
-        }}>
-          Selecciona una opción para comenzar a trabajar con el sistema de gestión bibliotecaria
+        <DashboardIcon
+          sx={{
+            fontSize: 56,
+            color: 'rgba(255, 255, 255, 0.8)',
+            mb: 2,
+            filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))',
+          }}
+        />
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'rgba(255, 255, 255, 0.8)',
+            maxWidth: 600,
+            mx: 'auto',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            lineHeight: 1.6,
+          }}
+        >
+          Selecciona una opción para comenzar a trabajar con el sistema de
+          gestión bibliotecaria
         </Typography>
       </Paper>
 
       {/* Options Grid */}
-      <Box sx={{ 
-        display: 'grid', 
-        gridTemplateColumns: {
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)', 
-          md: 'repeat(3, 1fr)'
-        },
-        gap: 3,
-        p: 3,
-        position: 'relative',
-        zIndex: 2,
-      }}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)',
+          },
+          gap: 3,
+          p: 3,
+          position: 'relative',
+          zIndex: 2,
+        }}
+      >
         {options.map((option, index) => (
-          <Card 
+          <Card
             key={index}
-            sx={{ 
+            sx={{
               height: '100%',
               borderRadius: '24px',
-              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+              background:
+                'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
               backdropFilter: 'blur(20px) saturate(1.8)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               cursor: 'pointer',
@@ -367,19 +420,29 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
                 0 4px 20px rgba(0, 0, 0, 0.1),
                 0 1px 3px rgba(0, 0, 0, 0.1)
               `,
-              '&:hover': { 
+              '&:hover': {
                 transform: 'translateY(-8px)',
-                background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%)',
+                background:
+                  'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%)',
                 boxShadow: `
                   0 0 40px ${option.color}40,
                   0 12px 48px rgba(0, 0, 0, 0.15),
                   0 4px 16px rgba(0, 0, 0, 0.1)
                 `,
-              }
+              },
             }}
             onClick={() => onNavigate(option.section)}
           >
-            <CardContent sx={{ p: 4, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <CardContent
+              sx={{
+                p: 4,
+                textAlign: 'center',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
               <Box
                 sx={{
                   display: 'inline-flex',
@@ -396,23 +459,30 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
                     0 0 20px ${option.color}30,
                     0 8px 16px rgba(0, 0, 0, 0.1)
                   `,
-                  mx: 'auto'
+                  mx: 'auto',
                 }}
               >
                 {option.icon}
               </Box>
-              <Typography variant="h6" fontWeight="700" sx={{ 
-                mb: 2,
-                color: 'rgba(255, 255, 255, 0.95)',
-                fontFamily: 'Inter, sans-serif',
-              }}>
+              <Typography
+                variant="h6"
+                fontWeight="700"
+                sx={{
+                  mb: 2,
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
                 {option.title}
               </Typography>
-              <Typography variant="body2" sx={{ 
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontFamily: 'Inter, sans-serif',
-                lineHeight: 1.5,
-              }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontFamily: 'Inter, sans-serif',
+                  lineHeight: 1.5,
+                }}
+              >
                 {option.description}
               </Typography>
             </CardContent>
@@ -421,84 +491,111 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
       </Box>
 
       {/* Footer Stats - Estilo minimalista */}
-      <Paper elevation={0} sx={{ 
-        m: 3,
-        p: 4, 
-        borderRadius: '24px',
-        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-        backdropFilter: 'blur(20px) saturate(1.8)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: `
+      <Paper
+        elevation={0}
+        sx={{
+          m: 3,
+          p: 4,
+          borderRadius: '24px',
+          background:
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+          backdropFilter: 'blur(20px) saturate(1.8)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: `
           0 0 40px rgba(255, 107, 53, 0.2),
           0 0 80px rgba(32, 212, 212, 0.15),
           0 8px 32px rgba(0, 0, 0, 0.3)
         `,
-        zIndex: 2,
-        position: 'relative',
-      }}>
-        <Box sx={{ 
-          display: 'grid', 
-          gridTemplateColumns: {
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(3, 1fr)'
-          },
-          gap: 4,
-          textAlign: 'center'
-        }}>
+          zIndex: 2,
+          position: 'relative',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: 'repeat(1, 1fr)',
+              md: 'repeat(3, 1fr)',
+            },
+            gap: 4,
+            textAlign: 'center',
+          }}
+        >
           <Box>
-            <Typography variant="h3" fontWeight="800" sx={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontFamily: 'Inter, sans-serif',
-              mb: 1,
-            }}>
+            <Typography
+              variant="h3"
+              fontWeight="800"
+              sx={{
+                background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontFamily: 'Inter, sans-serif',
+                mb: 1,
+              }}
+            >
               1,247
             </Typography>
-            <Typography variant="body1" sx={{ 
-              color: 'rgba(255, 255, 255, 0.8)',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 500,
-            }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+              }}
+            >
               Libros Registrados
             </Typography>
           </Box>
           <Box>
-            <Typography variant="h3" fontWeight="800" sx={{
-              background: 'linear-gradient(135deg, #20d4d4 0%, #48beb3 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontFamily: 'Inter, sans-serif',
-              mb: 1,
-            }}>
+            <Typography
+              variant="h3"
+              fontWeight="800"
+              sx={{
+                background: 'linear-gradient(135deg, #20d4d4 0%, #48beb3 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontFamily: 'Inter, sans-serif',
+                mb: 1,
+              }}
+            >
               89
             </Typography>
-            <Typography variant="body1" sx={{ 
-              color: 'rgba(255, 255, 255, 0.8)',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 500,
-            }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+              }}
+            >
               Préstamos Activos
             </Typography>
           </Box>
           <Box>
-            <Typography variant="h3" fontWeight="800" sx={{
-              background: 'linear-gradient(135deg, #ffa726 0%, #ff8c42 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontFamily: 'Inter, sans-serif',
-              mb: 1,
-            }}>
+            <Typography
+              variant="h3"
+              fontWeight="800"
+              sx={{
+                background: 'linear-gradient(135deg, #ffa726 0%, #ff8c42 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontFamily: 'Inter, sans-serif',
+                mb: 1,
+              }}
+            >
               156
             </Typography>
-            <Typography variant="body1" sx={{ 
-              color: 'rgba(255, 255, 255, 0.8)',
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 500,
-            }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+              }}
+            >
               Usuarios Registrados
             </Typography>
           </Box>

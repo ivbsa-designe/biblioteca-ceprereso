@@ -16,17 +16,20 @@ Sistema de gestión bibliotecaria desarrollado con tecnologías modernas para el
 ## Tecnologías Utilizadas
 
 ### Frontend
+
 - **React 19** con **TypeScript** - Framework principal de UI
 - **Material-UI (MUI)** - Componentes y sistema de diseño
 - **Vite** - Herramienta de build y desarrollo
 - **Emotion** - Librería CSS-in-JS para estilos
 
 ### Backend
+
 - **Rust** - Lenguaje de programación del backend
 - **Tauri 2** - Framework para aplicaciones de escritorio multiplataforma
 - **SQLite** - Base de datos embebida
 
 ### Herramientas y Dependencias
+
 - **bcryptjs** - Encriptación de contraseñas
 - **@tauri-apps/plugin-sql** - Plugin para manejo de base de datos
 - **@tauri-apps/plugin-opener** - Plugin para abrir archivos/URLs
@@ -46,11 +49,13 @@ El sistema utiliza **SQLite** como base de datos embebida con las siguientes tab
 ## Configuración y Desarrollo
 
 ### Requisitos Previos
+
 - Node.js (v18 o superior)
 - Rust (última versión estable)
 - Visual Studio Code (recomendado)
 
 ### Instalación
+
 ```bash
 # Clonar el repositorio
 git clone https://github.com/PakoOlivo/biblioteca-ceprereso.git
@@ -61,12 +66,14 @@ npm install
 ```
 
 ### Desarrollo Local
+
 ```bash
 # Ejecutar en modo desarrollo (frontend + backend)
 npm run tauri dev
 ```
 
 ### Build de Producción
+
 ```bash
 # Generar binarios multiplataforma
 npm run tauri build
@@ -117,38 +124,45 @@ npm run tauri build
 ## Características Principales
 
 ### 🔐 Sistema de Autenticación
+
 - Login con usuarios predefinidos (admin/operadores)
 - Roles diferenciados con permisos específicos
 - Sesión persistente durante el uso
 
 ### 👥 Gestión de PPL
+
 - Registro automático con IDs únicos por ubicación
 - Formato: `{dormitorio}-{sección}-{estancia}-{consecutivo}`
 - Validación de duplicados por ubicación
 
 ### 📚 Sistema de Biblioteca
+
 - Catálogo completo de libros
 - Sistema de búsqueda y filtros
 - Control de inventario
 
 ### 📋 Préstamos y Devoluciones
+
 - Seguimiento completo de préstamos
 - Control de fechas de vencimiento
 - Historial de transacciones
 - Estados: activo, devuelto, vencido
 
 ### 🆔 Sistema de Credenciales
+
 - Emisión de credenciales con fotografía
 - Vinculación directa con PPL
 - Control de fechas de emisión
 
 ### ⚠️ Sistema de Sanciones
+
 - Registro de incumplimientos
 - Seguimiento de sanciones por PPL
 - Historial completo de infracciones
 
 ## Scripts Disponibles
 
+### Desarrollo y Build
 ```bash
 npm run dev          # Servidor de desarrollo Vite
 npm run build        # Build de producción (TS + Vite)
@@ -156,6 +170,39 @@ npm run preview      # Preview del build
 npm run tauri dev    # Desarrollo completo (frontend + backend)
 npm run tauri build  # Build de aplicación nativa
 ```
+
+### Linting y Formato
+```bash
+# Frontend (TypeScript/React)
+npm run lint         # Lint con ESLint
+npm run lint:fix     # Autofix de problemas de lint
+npm run format       # Formatear código con Prettier
+npm run format:check # Verificar formato
+
+# Backend (Rust)
+npm run rust:fmt         # Formatear código Rust
+npm run rust:fmt:check   # Verificar formato Rust
+npm run rust:clippy      # Lint Rust con Clippy
+```
+
+## CI/CD y Releases
+
+Este proyecto incluye automatización completa con GitHub Actions:
+
+### 🚀 Pipeline Automático
+- **Trigger**: Push a la rama `main`
+- **Lint**: ESLint + Prettier (frontend) + rustfmt + clippy (backend)
+- **Build**: Multiplataforma (Windows + Linux)
+- **Release**: Beta automático en GitHub Releases
+
+### 📦 Binarios Generados
+- **Windows**: `.msi` installer (auto-contenido)
+- **Linux**: `.AppImage` (portable, sin dependencias)
+
+### 🔄 Gestión de Releases Beta
+- Máximo 3 releases beta conservados
+- Limpieza automática de versiones antiguas
+- Nombrado: `v{VERSION}-beta`
 
 ---
 

@@ -21,7 +21,12 @@ export async function crearTablaLibros() {
   if (existentes[0].count === 0) {
     await db.execute(
       `INSERT INTO libros (titulo, autor, genero, ubicacion) VALUES (?, ?, ?, ?)`,
-      ['Cien años de soledad', 'Gabriel García Márquez', 'Realismo mágico', 'Estante 1-A']
+      [
+        'Cien años de soledad',
+        'Gabriel García Márquez',
+        'Realismo mágico',
+        'Estante 1-A',
+      ]
     );
   }
 
