@@ -11,7 +11,9 @@ export async function crearTablaPPL() {
       seccion TEXT NOT NULL,
       estancia TEXT NOT NULL,
       consecutivo INTEGER NOT NULL,
-      activo BOOLEAN DEFAULT 1
+      activo BOOLEAN DEFAULT 1,
+      codigo_barras TEXT,
+      fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
 }

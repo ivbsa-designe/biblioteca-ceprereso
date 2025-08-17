@@ -30,6 +30,9 @@ export function setupFormularioPPL() {
 
     const consecutivo = (coincidencias[0]?.count || 0) + 1;
     const id = `${dormitorio}-${seccion}-${estancia}-${consecutivo}`;
+    
+    // El ID también sirve como código de barras para las credenciales
+    const codigoBarras = id;
 
     // Verificar si el ID ya existe
     const yaExiste = await db.select<{ id: string }[]>(
@@ -44,9 +47,9 @@ export function setupFormularioPPL() {
 
     // Insertar el nuevo PPL
     await db.execute(
-      `INSERT INTO ppl (id, nombre, dormitorio, seccion, estancia)
-       VALUES (?, ?, ?, ?, ?)`,
-      [id, nombre, dormitorio, seccion, estancia]
+      `INSERT INTO ppl (id, nombre, dormitorio, seccion, estancia, consecutivo, codigo_barras)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [id, nombre, dormitorio, seccion, estancia, consecutivo, codigoBarras]
     );
 
     alert("PPL registrado correctamente.");
