@@ -163,6 +163,7 @@ npm run tauri build
 ## Scripts Disponibles
 
 ### Desarrollo y Build
+
 ```bash
 npm run dev          # Servidor de desarrollo Vite
 npm run build        # Build de producción (TS + Vite)
@@ -172,6 +173,7 @@ npm run tauri build  # Build de aplicación nativa
 ```
 
 ### Linting y Formato
+
 ```bash
 # Frontend (TypeScript/React)
 npm run lint         # Lint con ESLint
@@ -190,16 +192,19 @@ npm run rust:clippy      # Lint Rust con Clippy
 Este proyecto incluye automatización completa con GitHub Actions:
 
 ### 🚀 Pipeline Automático
+
 - **Trigger**: Push a la rama `main`
 - **Lint**: ESLint + Prettier (frontend) + rustfmt + clippy (backend)
 - **Build**: Multiplataforma (Windows + Linux)
 - **Release**: Beta automático en GitHub Releases
 
 ### 📦 Binarios Generados
+
 - **Windows**: `.msi` installer (auto-contenido)
 - **Linux**: `.AppImage` (portable, sin dependencias)
 
 ### 🔄 Gestión de Releases Beta
+
 - Máximo 3 releases beta conservados
 - Limpieza automática de versiones antiguas
 - Nombrado: `v{VERSION}-beta`

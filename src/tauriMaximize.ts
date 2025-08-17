@@ -1,7 +1,10 @@
+interface WindowWithTauri extends Window {
+  __TAURI__?: unknown;
+}
+
 export async function maximizeWindow() {
   // Solo intenta maximizar si estamos en Tauri
-  // @ts-expect-error - __TAURI__ is injected by Tauri runtime
-  const isTauri = '__TAURI__' in window;
+  const isTauri = '__TAURI__' in (window as WindowWithTauri);
   if (!isTauri) return;
   try {
     // Import dinámico solo en Tauri
