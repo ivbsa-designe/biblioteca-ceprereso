@@ -19,7 +19,8 @@ import {
   TrendingUp,
   Logout,
   Dashboard as DashboardIcon,
-  AccessTime
+  AccessTime,
+  PictureAsPdf
 } from '@mui/icons-material';
 
 interface Usuario {
@@ -80,6 +81,13 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
       icon: <TrendingUp sx={{ fontSize: 40 }} />, 
       color: '#ef4444',
       section: 'reportes'
+    },
+    { 
+      title: 'Imprimir PDFs', 
+      description: 'Credenciales y etiquetas en PDF',
+      icon: <PictureAsPdf sx={{ fontSize: 40 }} />, 
+      color: '#dc2626',
+      section: 'pdfs'
     },
     { 
       title: 'Configuración', 

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { loginUsuario } from './apiUsuarios';
 import Dashboard from './Dashboard';
+import PDFExportComponent from './components/PDFExportComponent';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
 interface Usuario {
   id: number;
@@ -26,6 +28,7 @@ export default function App() {
   const [loading, setLoading] = React.useState(false);
   const [usuario, setUsuario] = React.useState<Usuario | null>(null);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [currentSection, setCurrentSection] = React.useState<string>('dashboard');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,14 +46,50 @@ export default function App() {
     }
   };
 
+  const handleNavigate = (section: string) => {
+    setCurrentSection(section);
+  };
+
+  const handleBackToDashboard = () => {
+    setCurrentSection('dashboard');
+  };
+
+  const renderCurrentSection = () => {
+    switch (currentSection) {
+      case 'pdfs':
+        return (
+          <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              p: 2, 
+              backgroundColor: 'white',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}>
+              <IconButton onClick={handleBackToDashboard} sx={{ mr: 2 }}>
+                <ArrowBack />
+              </IconButton>
+              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                Volver al Dashboard
+              </Typography>
+            </Box>
+            <PDFExportComponent />
+          </Box>
+        );
+      case 'dashboard':
+      default:
+        return (
+          <Dashboard 
+            usuario={usuario!}
+            onLogout={() => setUsuario(null)}
+            onNavigate={handleNavigate}
+          />
+        );
+    }
+  };
+
   if (usuario) {
-    return (
-      <Dashboard 
-        usuario={usuario}
-        onLogout={() => setUsuario(null)}
-        onNavigate={() => {}}
-      />
-    );
+    return renderCurrentSection();
   }
 
   return (

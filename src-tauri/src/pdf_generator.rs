@@ -26,23 +26,20 @@ fn draw_simple_barcode(layer: &PdfLayerReference, data: &str, x: Mm, y: Mm, widt
     let bar_width = Mm(1.0);
     
     for (i, ch) in data.chars().enumerate() {
-        if i as f64 * bar_width.0 > width.0 { break; }
+        if i as f64 * bar_width.0 as f64 > width.0 as f64 { break; }
         
         // Use character value to determine bar pattern
         let char_value = ch as u32;
         if char_value % 2 == 0 {
-            // Draw a bar
+            // Draw a simple vertical line to represent a bar
             let line = Line {
                 points: vec![
                     (Point::new(current_x, y), false),
                     (Point::new(current_x, y + height), false),
                 ],
                 is_closed: false,
-                has_fill: false,
-                has_stroke: true,
-                is_clipping_path: false,
             };
-            layer.add_shape(line);
+            layer.add_line(line);
         }
         current_x = current_x + bar_width;
     }
@@ -81,11 +78,8 @@ pub fn generate_credential_pdf(credential: CredentialData, output_path: &str) ->
             (Point::new(Mm(55.0), Mm(40.0)), false),
         ],
         is_closed: true,
-        has_fill: false,
-        has_stroke: true,
-        is_clipping_path: false,
     };
-    layer.add_shape(photo_frame);
+    layer.add_line(photo_frame);
     layer.use_text("FOTO", 8.0, Mm(60.0), Mm(32.0), &font_regular);
     
     // Add date
