@@ -10,15 +10,23 @@ async fn crear_usuarios_defecto() -> Result<(), String> {
 #[tauri::command]
 async fn validar_login(usuario: String, password: String) -> Result<serde_json::Value, String> {
     // Validación hardcodeada por ahora para probar
-    if (usuario == "admin" && password == "admin123") ||
-       (usuario == "operador_matutino" && password == "operador1") ||
-       (usuario == "operador_vespertino" && password == "operador2") {
+    if (usuario == "admin" && password == "admin123") {
         Ok(serde_json::json!({
             "success": true,
             "user": {
                 "id": 1,
                 "usuario": usuario,
-                "rol": if usuario == "admin" { "admin" } else { "operador" }
+                "rol": "admin"
+            }
+        }))
+    } else if (usuario == "bibliotecario_matutino" && password == "operador1") ||
+              (usuario == "bibliotecario_vespertino" && password == "operador2") {
+        Ok(serde_json::json!({
+            "success": true,
+            "user": {
+                "id": 2,
+                "usuario": usuario,
+                "rol": "bibliotecario"
             }
         }))
     } else {
@@ -48,7 +56,7 @@ pub fn run() {
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         usuario TEXT UNIQUE NOT NULL,
                         password TEXT NOT NULL,
-                        rol TEXT NOT NULL CHECK(rol IN ('admin', 'operador')),
+                        rol TEXT NOT NULL CHECK(rol IN ('admin', 'bibliotecario')),
                         activo INTEGER DEFAULT 1,
                         fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
                     );",

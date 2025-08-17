@@ -1,7 +1,14 @@
 
 import Database from "@tauri-apps/plugin-sql";
+import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
 
 export function setupFormularioPPL() {
+  // Verificar permisos antes de configurar el formulario
+  if (!checkUserPermissions('ppl_management')) {
+    showPermissionDeniedMessage('gestionar PPL');
+    return;
+  }
+
   const form = document.querySelector<HTMLFormElement>("#form-ppl");
 
   if (!form) return;

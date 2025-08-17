@@ -19,7 +19,8 @@ import {
   TrendingUp,
   Logout,
   Dashboard as DashboardIcon,
-  AccessTime
+  AccessTime,
+  Warning
 } from '@mui/icons-material';
 
 interface Usuario {
@@ -45,6 +46,13 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
       icon: <Person sx={{ fontSize: 40 }} />, 
       color: '#6366f1',
       section: 'usuarios'
+    },
+    { 
+      title: 'Gestión de PPL', 
+      description: 'Registrar y administrar PPL',
+      icon: <Person sx={{ fontSize: 40 }} />, 
+      color: '#9333ea',
+      section: 'ppl'
     },
     { 
       title: 'Gestión de Libros', 
@@ -75,23 +83,30 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
       section: 'consultas'
     },
     { 
+      title: 'Sanciones', 
+      description: 'Gestionar sanciones de PPL',
+      icon: <Warning sx={{ fontSize: 40 }} />, 
+      color: '#dc2626',
+      section: 'sanciones'
+    },
+    { 
       title: 'Reportes', 
-      description: 'Estadísticas y reportes',
+      description: 'Estadísticas y reportes completos',
       icon: <TrendingUp sx={{ fontSize: 40 }} />, 
       color: '#ef4444',
       section: 'reportes'
     },
     { 
       title: 'Configuración', 
-      description: 'Configuración del sistema',
+      description: 'Configuración del sistema y backups',
       icon: <Settings sx={{ fontSize: 40 }} />, 
       color: '#64748b',
       section: 'configuracion'
     }
   ];
 
-  // Opciones para operadores
-  const operatorOptions = [
+  // Opciones para bibliotecario (antes operadores)
+  const bibliotecarioOptions = [
     { 
       title: 'Préstamos', 
       description: 'Gestionar préstamos de libros',
@@ -112,10 +127,17 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
       icon: <Search sx={{ fontSize: 40 }} />, 
       color: '#f59e0b',
       section: 'consultas'
+    },
+    { 
+      title: 'Reportes', 
+      description: 'Estadísticas (sin exportación)',
+      icon: <TrendingUp sx={{ fontSize: 40 }} />, 
+      color: '#ef4444',
+      section: 'reportes'
     }
   ];
 
-  const options = isAdmin ? adminOptions : operatorOptions;
+  const options = isAdmin ? adminOptions : bibliotecarioOptions;
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -206,7 +228,7 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
                 ¡Bienvenido, {usuario.nombre}!
               </Typography>
               <Chip 
-                label={isAdmin ? 'Administrador' : 'Operador'} 
+                label={isAdmin ? 'Administrador' : 'Bibliotecario'} 
                 sx={{
                   background: isAdmin 
                     ? 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)'
