@@ -1,5 +1,8 @@
 use tauri_plugin_sql::{Migration, MigrationKind};
 
+mod pdf_generator;
+use pdf_generator::{CredentialData, BookData, generate_credential_pdf, generate_book_label_pdf};
+
 // Comando simple para crear usuarios por defecto
 #[tauri::command]
 async fn crear_usuarios_defecto() -> Result<(), String> {
@@ -86,10 +89,31 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+// Comando para generar PDF de credencial
+#[tauri::command]
+async fn generar_credencial_pdf(credential: CredentialData, output_path: String) -> Result<String, String> {
+    generate_credential_pdf(credential, &output_path)?;
+    Ok(format!("Credencial PDF generada en: {}", output_path))
+}
+
+// Comando para generar PDF de etiqueta de libro
+#[tauri::command]
+async fn generar_etiqueta_libro_pdf(book: BookData, output_path: String) -> Result<String, String> {
+    generate_book_label_pdf(book, &output_path)?;
+    Ok(format!("Etiqueta de libro PDF generada en: {}", output_path))
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_sql::Builder::default()
+            .add_migrations("sqlite:biblioteca.db", vec![
+                Migration {
+                    version: 1,
+                    description: "create_usuarios_table",
+                    sql: "CREATE TABLE IF NOT EXISTS usuarios (
         .plugin(
             tauri_plugin_sql::Builder::default()
                 .add_migrations(
@@ -145,6 +169,8 @@ pub fn run() {
             greet,
             crear_usuarios_defecto,
             validar_login,
+            generar_credencial_pdf,
+            generar_etiqueta_libro_pdf
             verificar_sanciones_activas,
             crear_sancion,
             anular_sancion

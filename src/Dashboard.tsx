@@ -20,6 +20,7 @@ import {
   Logout,
   Dashboard as DashboardIcon,
   AccessTime,
+  PictureAsPdf
 } from '@mui/icons-material';
 
 interface Usuario {
@@ -34,6 +35,31 @@ interface DashboardProps {
   onNavigate: (section: string) => void;
 }
 
+const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) => {
+  // Opciones para operadores
+  const operatorOptions = [
+    { 
+      title: 'Préstamos', 
+      description: 'Gestionar préstamos de libros',
+      icon: <Assignment sx={{ fontSize: 40 }} />, 
+      color: '#06b6d4',
+      section: 'prestamos'
+    },
+    { 
+      title: 'Devoluciones', 
+      description: 'Procesar devoluciones',
+      icon: <KeyboardReturn sx={{ fontSize: 40 }} />, 
+      color: '#10b981',
+      section: 'devoluciones'
+    },
+    { 
+      title: 'Consultas', 
+      description: 'Buscar libros y usuarios',
+      icon: <Search sx={{ fontSize: 40 }} />, 
+      color: '#f59e0b',
+      section: 'consultas'
+    }
+  ];
 const Dashboard: React.FC<DashboardProps> = ({
   usuario,
   onLogout,
@@ -85,6 +111,15 @@ const Dashboard: React.FC<DashboardProps> = ({
       color: '#ef4444',
       section: 'reportes',
     },
+    { 
+      title: 'Imprimir PDFs', 
+      description: 'Credenciales y etiquetas en PDF',
+      icon: <PictureAsPdf sx={{ fontSize: 40 }} />, 
+      color: '#dc2626',
+      section: 'pdfs'
+    },
+    { 
+      title: 'Configuración del sistema', 
     {
       title: 'Configuración',
       description: 'Configuración del sistema',
