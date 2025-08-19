@@ -1,17 +1,7 @@
-// Stub para generar credencial PDF
-#[tauri::command]
-async fn generar_credencial_pdf(id_usuario: String) -> Result<String, String> {
-    let _ = id_usuario;
-    Ok("PDF generado para credencial".to_string())
-}
-
-// Stub para generar etiqueta de libro PDF
-#[tauri::command]
-async fn generar_etiqueta_libro_pdf(id_libro: String) -> Result<String, String> {
-    let _ = id_libro;
-    Ok("PDF generado para etiqueta de libro".to_string())
-}
 use tauri_plugin_sql::{Migration, MigrationKind};
+
+mod pdf_generator;
+use pdf_generator::{CredentialData, BookData, generate_credential_pdf, generate_book_label_pdf};
 
 // Comando simple para crear usuarios por defecto
 #[tauri::command]
@@ -23,7 +13,9 @@ async fn crear_usuarios_defecto() -> Result<(), String> {
 #[tauri::command]
 async fn validar_login(usuario: String, password: String) -> Result<serde_json::Value, String> {
     // Validación hardcodeada por ahora para probar
-    if (usuario == "admin" && password == "admin123") {
+    if (usuario == "admin" && password == "admin123")
+        || (usuario == "operador_matutino" && password == "operador1")
+        || (usuario == "operador_vespertino" && password == "operador2") {
         Ok(serde_json::json!({
             "success": true,
             "user": {
@@ -101,10 +93,25 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+// Comando para generar PDF de credencial
+#[tauri::command]
+async fn generar_credencial_pdf(credential: CredentialData, output_path: String) -> Result<String, String> {
+    generate_credential_pdf(credential, &output_path)?;
+    Ok(format!("Credencial PDF generada en: {}", output_path))
+}
+
+// Comando para generar PDF de etiqueta de libro
+#[tauri::command]
+async fn generar_etiqueta_libro_pdf(book: BookData, output_path: String) -> Result<String, String> {
+    generate_book_label_pdf(book, &output_path)?;
+    Ok(format!("Etiqueta de libro PDF generada en: {}", output_path))
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_sql::Builder::default()
             .add_migrations("sqlite:biblioteca.db", vec![
                 Migration {

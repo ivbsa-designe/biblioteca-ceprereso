@@ -1,5 +1,4 @@
-
-import Database from "@tauri-apps/plugin-sql";
+import Database from '@tauri-apps/plugin-sql';
 import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
 
 export function setupFormularioPPL() {
@@ -8,25 +7,34 @@ export function setupFormularioPPL() {
     showPermissionDeniedMessage('gestionar PPL');
     return;
   }
-
-  const form = document.querySelector<HTMLFormElement>("#form-ppl");
+  const form = document.querySelector<HTMLFormElement>('#form-ppl');
 
   if (!form) return;
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const nombre = (document.querySelector("#nombre") as HTMLInputElement).value.trim();
-    const dormitorio = (document.querySelector("#dormitorio") as HTMLInputElement).value.trim();
-    const seccion = (document.querySelector("#seccion") as HTMLInputElement).value.trim().toUpperCase();
-    const estancia = (document.querySelector("#estancia") as HTMLInputElement).value.trim();
+    const nombre = (
+      document.querySelector('#nombre') as HTMLInputElement
+    ).value.trim();
+    const dormitorio = (
+      document.querySelector('#dormitorio') as HTMLInputElement
+    ).value.trim();
+    const seccion = (
+      document.querySelector('#seccion') as HTMLInputElement
+    ).value
+      .trim()
+      .toUpperCase();
+    const estancia = (
+      document.querySelector('#estancia') as HTMLInputElement
+    ).value.trim();
 
     if (!nombre || !dormitorio || !seccion || !estancia) {
-      alert("Todos los campos son obligatorios.");
+      alert('Todos los campos son obligatorios.');
       return;
     }
 
-    const db = await Database.load("sqlite:db_biblioteca.db");
+    const db = await Database.load('sqlite:db_biblioteca.db');
 
     // Buscar cuántos PPL existen ya en esa misma ubicación
     const coincidencias = await db.select<{ count: number }[]>(
@@ -40,12 +48,12 @@ export function setupFormularioPPL() {
 
     // Verificar si el ID ya existe
     const yaExiste = await db.select<{ id: string }[]>(
-      "SELECT id FROM ppl WHERE id = ?",
+      'SELECT id FROM ppl WHERE id = ?',
       [id]
     );
 
     if (yaExiste.length > 0) {
-      alert("Ya existe un PPL registrado con esa ubicación e ID.");
+      alert('Ya existe un PPL registrado con esa ubicación e ID.');
       return;
     }
 
@@ -56,7 +64,7 @@ export function setupFormularioPPL() {
       [id, nombre, dormitorio, seccion, estancia]
     );
 
-    alert("PPL registrado correctamente.");
+    alert('PPL registrado correctamente.');
     form.reset();
   });
 }

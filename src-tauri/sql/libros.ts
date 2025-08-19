@@ -198,13 +198,13 @@ export async function crearTablaLibros() {
   );
 
   if (existentes[0].count === 0) {
-    // Generar un ID de ejemplo: C101 (Estante C, Nivel 1, Posición 01)
-    const ejemploId = 'C101';
-    await db.execute(
-      `INSERT INTO libros (id, titulo, autor, genero, estante, nivel, posicion, ubicacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [ejemploId, 'Cien años de soledad', 'Gabriel García Márquez', 'Realismo mágico', 'C', 1, 1, 'Estante C-1-01']
-    );
-  }
+  // Generar un ID de ejemplo: C101 (Estante C, Nivel 1, Posición 01)
+  const ejemploId = 'C101';
+  await db.execute(
+    `INSERT INTO libros (id, titulo, autor, genero, estante, nivel, posicion, ubicacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [ejemploId, 'Cien años de soledad', 'Gabriel García Márquez', 'Realismo mágico', 'C', 1, 1, 'Estante C-1-01']
+  );
+}
 
   const libros = await db.select<{
     id: string;
