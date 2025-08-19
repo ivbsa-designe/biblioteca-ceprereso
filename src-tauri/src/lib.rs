@@ -1,3 +1,16 @@
+// Stub para generar credencial PDF
+#[tauri::command]
+async fn generar_credencial_pdf(id_usuario: String) -> Result<String, String> {
+    let _ = id_usuario;
+    Ok("PDF generado para credencial".to_string())
+}
+
+// Stub para generar etiqueta de libro PDF
+#[tauri::command]
+async fn generar_etiqueta_libro_pdf(id_libro: String) -> Result<String, String> {
+    let _ = id_libro;
+    Ok("PDF generado para etiqueta de libro".to_string())
+}
 use tauri_plugin_sql::{Migration, MigrationKind};
 
 // Comando simple para crear usuarios por defecto
@@ -35,6 +48,51 @@ async fn validar_login(usuario: String, password: String) -> Result<serde_json::
             "message": "Usuario o contraseña incorrectos"
         }))
     }
+}
+
+// Comando para verificar sanciones activas
+#[tauri::command]
+async fn verificar_sanciones_activas(id_ppl: String) -> Result<bool, String> {
+    
+    let _ = id_ppl;
+    Ok(false)
+}
+
+// Comando para crear sanción
+#[tauri::command]
+async fn crear_sancion(
+    id_ppl: String,
+    fecha_inicio: String,
+    fecha_fin: String,
+    motivo: String,
+    tipo_sancion: String,
+    id_admin_autoriza: Option<String>
+) -> Result<bool, String> {
+    let _ = tipo_sancion;
+    let _ = id_admin_autoriza;
+    if id_ppl.is_empty() || fecha_inicio.is_empty() || fecha_fin.is_empty() || motivo.is_empty() {
+        return Err("Todos los campos obligatorios deben estar completos".to_string());
+    }
+    Ok(true)
+}
+
+// Comando para anular sanción (solo admin)
+#[tauri::command]
+async fn anular_sancion(
+    id_sancion: i32,
+    id_admin: String,
+    observaciones: String,
+    rol_usuario: String
+) -> Result<bool, String> {
+    let _ = id_sancion;
+    let _ = id_admin;
+    if rol_usuario != "admin" {
+        return Err("Solo los administradores pueden anular sanciones".to_string());
+    }
+    if observaciones.is_empty() {
+        return Err("Las observaciones son obligatorias para anular una sanción".to_string());
+    }
+    Ok(true)
 }
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -77,12 +135,15 @@ pub fn run() {
                     );
                     
                     CREATE TABLE IF NOT EXISTS libros (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        id TEXT PRIMARY KEY,
                         titulo TEXT NOT NULL,
-                        autor TEXT NOT NULL,
-                        isbn TEXT UNIQUE,
-                        categoria TEXT,
-                        disponible INTEGER DEFAULT 1,
+                        autor TEXT,
+                        genero TEXT,
+                        estante TEXT NOT NULL,
+                        nivel INTEGER NOT NULL,
+                        posicion INTEGER NOT NULL,
+                        ubicacion TEXT,
+                        estado TEXT DEFAULT 'disponible',
                         fecha_ingreso DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
                     ",
@@ -93,7 +154,12 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             crear_usuarios_defecto,
-            validar_login
+            validar_login,
+            generar_credencial_pdf,
+            generar_etiqueta_libro_pdf,
+            verificar_sanciones_activas,
+            crear_sancion,
+            anular_sancion
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
