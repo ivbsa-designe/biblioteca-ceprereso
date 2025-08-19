@@ -1,7 +1,7 @@
-import Database from "@tauri-apps/plugin-sql";
+import Database from '@tauri-apps/plugin-sql';
 
 export async function crearTablaCredenciales() {
-  const db = await Database.load("sqlite:db_biblioteca.db");
+  const db = await Database.load('sqlite:db_biblioteca.db');
 
   await db.execute(`
     CREATE TABLE IF NOT EXISTS credenciales (

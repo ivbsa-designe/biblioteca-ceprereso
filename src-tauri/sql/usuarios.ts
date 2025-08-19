@@ -1,7 +1,7 @@
-import Database from "@tauri-apps/plugin-sql";
+import Database from '@tauri-apps/plugin-sql';
 
 export async function crearTablaUsuarios() {
-  const db = await Database.load("sqlite:db_biblioteca.db");
+  const db = await Database.load('sqlite:db_biblioteca.db');
 
   await db.execute(`
     CREATE TABLE IF NOT EXISTS usuarios (
@@ -14,7 +14,7 @@ export async function crearTablaUsuarios() {
 
   // Crear usuarios por defecto si no existen
   const existentes = await db.select<{ count: number }[]>(
-    "SELECT COUNT(*) as count FROM usuarios;"
+    'SELECT COUNT(*) as count FROM usuarios;'
   );
 
   if (existentes[0].count === 0) {
@@ -23,9 +23,15 @@ export async function crearTablaUsuarios() {
     await db.execute(
       `INSERT INTO usuarios (nombre, password_hash, rol) VALUES (?, ?, ?), (?, ?, ?), (?, ?, ?)`,
       [
-        "admin", "admin123", "admin",
-        "operador_matutino", "operador1", "operador",
-        "operador_vespertino", "operador2", "operador"
+        'admin',
+        'admin123',
+        'admin',
+        'operador_matutino',
+        'operador1',
+        'operador',
+        'operador_vespertino',
+        'operador2',
+        'operador',
       ]
     );
   }
