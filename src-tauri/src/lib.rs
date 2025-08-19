@@ -29,6 +29,56 @@ async fn validar_login(usuario: String, password: String) -> Result<serde_json::
     }
 }
 
+// Comando para verificar sanciones activas
+#[tauri::command]
+async fn verificar_sanciones_activas(id_ppl: String) -> Result<bool, String> {
+    use tauri_plugin_sql::{Database, Manager};
+    
+    // Este sería el comando real usando la base de datos
+    // Por ahora devolvemos false para testing
+    Ok(false)
+}
+
+// Comando para crear sanción
+#[tauri::command]
+async fn crear_sancion(
+    id_ppl: String,
+    fecha_inicio: String,
+    fecha_fin: String,
+    motivo: String,
+    tipo_sancion: String,
+    id_admin_autoriza: Option<String>
+) -> Result<bool, String> {
+    // Validación básica
+    if id_ppl.is_empty() || fecha_inicio.is_empty() || fecha_fin.is_empty() || motivo.is_empty() {
+        return Err("Todos los campos obligatorios deben estar completos".to_string());
+    }
+    
+    // Por ahora devolvemos éxito para testing
+    Ok(true)
+}
+
+// Comando para anular sanción (solo admin)
+#[tauri::command]
+async fn anular_sancion(
+    id_sancion: i32,
+    id_admin: String,
+    observaciones: String,
+    rol_usuario: String
+) -> Result<bool, String> {
+    // Verificar que solo admin puede anular sanciones
+    if rol_usuario != "admin" {
+        return Err("Solo los administradores pueden anular sanciones".to_string());
+    }
+    
+    if observaciones.is_empty() {
+        return Err("Las observaciones son obligatorias para anular una sanción".to_string());
+    }
+    
+    // Por ahora devolvemos éxito para testing
+    Ok(true)
+}
+
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -88,7 +138,10 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             crear_usuarios_defecto,
-            validar_login
+            validar_login,
+            verificar_sanciones_activas,
+            crear_sancion,
+            anular_sancion
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
