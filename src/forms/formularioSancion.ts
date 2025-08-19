@@ -1,3 +1,15 @@
+import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
+
+export function setupFormularioSancion() {
+  // Verificar permisos antes de configurar el formulario
+  if (!checkUserPermissions('sanctions')) {
+    showPermissionDeniedMessage('gestionar sanciones');
+    return;
+  }
+  
+  console.log('Formulario de sanciones listo');
+}
+
 import { crearSancion, anularSancion } from '../apiSanciones';
 import Database from "@tauri-apps/plugin-sql";
 

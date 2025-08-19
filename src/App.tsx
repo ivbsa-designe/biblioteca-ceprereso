@@ -41,6 +41,8 @@ export default function App() {
     if (!res.ok) {
       setError(res.error ?? 'Error desconocido');
     } else if (res.usuario) {
+      // Guardar usuario en sessionStorage para verificación de permisos
+      sessionStorage.setItem('currentUser', JSON.stringify(res.usuario));
       setUsuario(res.usuario);
     }
   };
@@ -92,7 +94,11 @@ export default function App() {
     return (
       <Dashboard
         usuario={usuario}
-        onLogout={() => setUsuario(null)}
+        onLogout={() => {
+          // Limpiar sessionStorage al hacer logout
+          sessionStorage.removeItem('currentUser');
+          setUsuario(null);
+        }}
         onNavigate={() => {}}
       />
     );
