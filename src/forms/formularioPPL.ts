@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import Database from '@tauri-apps/plugin-sql';
+=======
+
+import Database from "@tauri-apps/plugin-sql";
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
 
 export function setupFormularioPPL() {
@@ -7,6 +12,15 @@ export function setupFormularioPPL() {
     showPermissionDeniedMessage('gestionar PPL');
     return;
   }
+<<<<<<< HEAD
+=======
+
+  const form = document.querySelector<HTMLFormElement>("#form-ppl");
+
+import Database from '@tauri-apps/plugin-sql';
+
+export function setupFormularioPPL() {
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
   const form = document.querySelector<HTMLFormElement>('#form-ppl');
 
   if (!form) return;

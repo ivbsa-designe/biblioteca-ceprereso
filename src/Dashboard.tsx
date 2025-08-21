@@ -1,6 +1,33 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Box, Typography, Card, CardContent, IconButton } from '@mui/material';
 import { Assignment, KeyboardReturn, Search, TrendingUp, Logout, Person, LibraryBooks, Settings, PictureAsPdf } from '@mui/icons-material';
+=======
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+  Chip,
+  IconButton,
+  Paper,
+} from '@mui/material';
+import {
+  LibraryBooks,
+  Assignment,
+  KeyboardReturn,
+  Search,
+  Settings,
+  Person,
+  TrendingUp,
+  Logout,
+  Dashboard as DashboardIcon,
+  AccessTime,
+  Warning
+  PictureAsPdf
+} from '@mui/icons-material';
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 
 interface Usuario {
   id: number;
@@ -56,6 +83,7 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
   );
 };
 
+<<<<<<< HEAD
 export default Dashboard;
 
 import React from 'react';
@@ -100,6 +128,61 @@ const bibliotecarioOptions = [
 ];
 
 const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) => {
+=======
+  // Opciones para administrador
+  const adminOptions = [
+    { 
+      title: 'Gestión de Usuarios', 
+      description: 'Administrar usuarios del sistema',
+      icon: <Person sx={{ fontSize: 40 }} />, 
+      color: '#6366f1',
+      section: 'usuarios'
+    },
+    { 
+      title: 'Gestión de PPL', 
+      description: 'Registrar y administrar PPL',
+      icon: <Person sx={{ fontSize: 40 }} />, 
+      color: '#9333ea',
+      section: 'ppl'
+    },
+    { 
+      title: 'Gestión de Libros', 
+      description: 'Agregar, editar y eliminar libros',
+      icon: <LibraryBooks sx={{ fontSize: 40 }} />, 
+      color: '#8b5cf6',
+      section: 'libros'
+    },
+
+  // Opciones para operadores
+  const operatorOptions = [
+    { 
+      title: 'Préstamos', 
+      description: 'Gestionar préstamos de libros',
+      icon: <Assignment sx={{ fontSize: 40 }} />, 
+      color: '#06b6d4',
+      section: 'prestamos'
+    },
+    { 
+      title: 'Devoluciones', 
+      description: 'Procesar devoluciones',
+      icon: <KeyboardReturn sx={{ fontSize: 40 }} />, 
+      color: '#10b981',
+      section: 'devoluciones'
+    },
+    { 
+      title: 'Consultas', 
+      description: 'Buscar libros y usuarios',
+      icon: <Search sx={{ fontSize: 40 }} />, 
+      color: '#f59e0b',
+      section: 'consultas'
+    }
+  ];
+const Dashboard: React.FC<DashboardProps> = ({
+  usuario,
+  onLogout,
+  onNavigate,
+}) => {
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
   const isAdmin = usuario.rol === 'admin';
   const options = isAdmin ? adminOptions : bibliotecarioOptions;
   return (
@@ -121,6 +204,7 @@ const Dashboard: React.FC<DashboardProps> = ({ usuario, onLogout, onNavigate }) 
   );
 };
 
+<<<<<<< HEAD
 export default Dashboard;
             <CardContent>
               {option.icon}
@@ -186,6 +270,124 @@ export default Dashboard;
     </Box>
   );
 };
+=======
+  // Opciones para administrador
+  const adminOptions = [
+    {
+      title: 'Gestión de Usuarios',
+      description: 'Administrar usuarios del sistema',
+      icon: <Person sx={{ fontSize: 40 }} />,
+      color: '#6366f1',
+      section: 'usuarios',
+    },
+    { 
+      title: 'Sanciones', 
+      description: 'Gestionar sanciones de PPL',
+      icon: <Warning sx={{ fontSize: 40 }} />, 
+      color: '#dc2626',
+      section: 'sanciones'
+    },
+    { 
+      title: 'Reportes', 
+      description: 'Estadísticas y reportes completos',
+      icon: <TrendingUp sx={{ fontSize: 40 }} />, 
+
+    {
+      title: 'Gestión de Libros',
+      description: 'Agregar, editar y eliminar libros',
+      icon: <LibraryBooks sx={{ fontSize: 40 }} />,
+      color: '#8b5cf6',
+      section: 'libros',
+    },
+    {
+      title: 'Préstamos',
+      description: 'Gestionar préstamos de libros',
+      icon: <Assignment sx={{ fontSize: 40 }} />,
+      color: '#06b6d4',
+      section: 'prestamos',
+    },
+    {
+      title: 'Devoluciones',
+      description: 'Procesar devoluciones',
+      icon: <KeyboardReturn sx={{ fontSize: 40 }} />,
+      color: '#10b981',
+      section: 'devoluciones',
+    },
+    {
+      title: 'Consultas',
+      description: 'Buscar libros y usuarios',
+      icon: <Search sx={{ fontSize: 40 }} />,
+      color: '#f59e0b',
+      section: 'consultas',
+    },
+    {
+      title: 'Reportes',
+      description: 'Estadísticas y reportes',
+      icon: <TrendingUp sx={{ fontSize: 40 }} />,
+      color: '#ef4444',
+      section: 'reportes',
+    },
+    { 
+      title: 'Configuración', 
+      description: 'Configuración del sistema y backups',
+      icon: <Settings sx={{ fontSize: 40 }} />, 
+
+      title: 'Imprimir PDFs', 
+      description: 'Credenciales y etiquetas en PDF',
+      icon: <PictureAsPdf sx={{ fontSize: 40 }} />, 
+      color: '#dc2626',
+      section: 'pdfs'
+    },
+    { 
+      title: 'Configuración del sistema', 
+    {
+      title: 'Configuración',
+      description: 'Configuración del sistema',
+      icon: <Settings sx={{ fontSize: 40 }} />,
+      color: '#64748b',
+      section: 'configuracion',
+    },
+  ];
+
+  // Opciones para bibliotecario (antes operadores)
+  const bibliotecarioOptions = [
+    { 
+      title: 'Préstamos', 
+
+  // Opciones para operadores
+  const operatorOptions = [
+    {
+      title: 'Préstamos',
+      description: 'Gestionar préstamos de libros',
+      icon: <Assignment sx={{ fontSize: 40 }} />,
+      color: '#06b6d4',
+      section: 'prestamos',
+    },
+    {
+      title: 'Devoluciones',
+      description: 'Procesar devoluciones',
+      icon: <KeyboardReturn sx={{ fontSize: 40 }} />,
+      color: '#10b981',
+      section: 'devoluciones',
+    },
+    {
+      title: 'Consultas',
+      description: 'Buscar libros y usuarios',
+      icon: <Search sx={{ fontSize: 40 }} />,
+      color: '#f59e0b',
+      section: 'consultas'
+    },
+    { 
+      title: 'Reportes', 
+      description: 'Estadísticas (sin exportación)',
+      icon: <TrendingUp sx={{ fontSize: 40 }} />, 
+      color: '#ef4444',
+      section: 'reportes'
+    }
+      section: 'consultas',
+    },
+  ];
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 
 export default Dashboard;
 import React from 'react';
@@ -556,6 +758,7 @@ interface Usuario {
                   position: 'relative',
                 }}
               >
+<<<<<<< HEAD
                 <Box
                   sx={{
                     display: 'flex',
@@ -682,6 +885,14 @@ interface Usuario {
               {/* Welcome Message */}
               <Paper
                 elevation={0}
+=======
+                ¡Bienvenido, {usuario.nombre}!
+              </Typography>
+              <Chip 
+                label={isAdmin ? 'Administrador' : 'Bibliotecario'} 
+              <Chip
+                label={isAdmin ? 'Administrador' : 'Operador'}
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
                 sx={{
                   p: 5,
                   m: 3,

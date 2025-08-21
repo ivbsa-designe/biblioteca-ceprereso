@@ -1,7 +1,27 @@
+<<<<<<< HEAD
 import Database from "@tauri-apps/plugin-sql";
 import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
 
 // --- FUNCIONES DE LÓGICA DE LIBROS ---
+=======
+import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
+
+export function setupFormularioLibro() {
+  // Verificar permisos antes de configurar el formulario
+  if (!checkUserPermissions('book_management')) {
+    showPermissionDeniedMessage('gestionar libros');
+    return;
+  }
+  
+  console.log('Formulario Libro listo');
+
+import Database from "@tauri-apps/plugin-sql";
+
+/**
+ * Genera un ID único para un libro basado en Estante + Nivel + Posición
+ * Formato: {Estante}{Nivel}{Posición} (ej: C434)
+ */
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 async function generarIdLibro(estante: string, nivel: number, posicion?: number): Promise<string> {
   const db = await Database.load('sqlite:db_biblioteca.db');
   if (posicion === undefined) {
@@ -256,6 +276,9 @@ ${codigoBarras}
   } catch (error: any) {
     throw new Error(`Error al generar código de barras: ${error?.message || error}`);
   }
+<<<<<<< HEAD
 }
 // ...existing code...
+=======
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 }
