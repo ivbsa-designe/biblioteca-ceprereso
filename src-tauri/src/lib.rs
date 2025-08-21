@@ -148,12 +148,14 @@ pub fn run() {
                             description: "create_other_tables",
                             sql: "
                     CREATE TABLE IF NOT EXISTS ppl (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        id TEXT PRIMARY KEY,
                         nombre TEXT NOT NULL,
-                        apellido TEXT NOT NULL,
-                        email TEXT UNIQUE,
-                        telefono TEXT,
-                        direccion TEXT,
+                        dormitorio TEXT NOT NULL,
+                        seccion TEXT NOT NULL,
+                        estancia TEXT NOT NULL,
+                        consecutivo INTEGER NOT NULL,
+                        activo BOOLEAN DEFAULT 1,
+                        codigo_barras TEXT,
                         fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
                     
