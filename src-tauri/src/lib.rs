@@ -13,11 +13,9 @@ async fn crear_usuarios_defecto() -> Result<(), String> {
 #[tauri::command]
 async fn validar_login(usuario: String, password: String) -> Result<serde_json::Value, String> {
     // Validación hardcodeada por ahora para probar
-    if (usuario == "admin" && password == "admin123") {
     if (usuario == "admin" && password == "admin123")
         || (usuario == "operador_matutino" && password == "operador1")
-        || (usuario == "operador_vespertino" && password == "operador2")
-    {
+        || (usuario == "operador_vespertino" && password == "operador2") {
         Ok(serde_json::json!({
             "success": true,
             "user": {
@@ -47,10 +45,8 @@ async fn validar_login(usuario: String, password: String) -> Result<serde_json::
 // Comando para verificar sanciones activas
 #[tauri::command]
 async fn verificar_sanciones_activas(id_ppl: String) -> Result<bool, String> {
-    use tauri_plugin_sql::{Database, Manager};
     
-    // Este sería el comando real usando la base de datos
-    // Por ahora devolvemos false para testing
+    let _ = id_ppl;
     Ok(false)
 }
 
@@ -64,12 +60,11 @@ async fn crear_sancion(
     tipo_sancion: String,
     id_admin_autoriza: Option<String>
 ) -> Result<bool, String> {
-    // Validación básica
+    let _ = tipo_sancion;
+    let _ = id_admin_autoriza;
     if id_ppl.is_empty() || fecha_inicio.is_empty() || fecha_fin.is_empty() || motivo.is_empty() {
         return Err("Todos los campos obligatorios deben estar completos".to_string());
     }
-    
-    // Por ahora devolvemos éxito para testing
     Ok(true)
 }
 
@@ -81,16 +76,14 @@ async fn anular_sancion(
     observaciones: String,
     rol_usuario: String
 ) -> Result<bool, String> {
-    // Verificar que solo admin puede anular sanciones
+    let _ = id_sancion;
+    let _ = id_admin;
     if rol_usuario != "admin" {
         return Err("Solo los administradores pueden anular sanciones".to_string());
     }
-    
     if observaciones.is_empty() {
         return Err("Las observaciones son obligatorias para anular una sanción".to_string());
     }
-    
-    // Por ahora devolvemos éxito para testing
     Ok(true)
 }
 
@@ -125,15 +118,6 @@ pub fn run() {
                     version: 1,
                     description: "create_usuarios_table",
                     sql: "CREATE TABLE IF NOT EXISTS usuarios (
-        .plugin(
-            tauri_plugin_sql::Builder::default()
-                .add_migrations(
-                    "sqlite:biblioteca.db",
-                    vec![
-                        Migration {
-                            version: 1,
-                            description: "create_usuarios_table",
-                            sql: "CREATE TABLE IF NOT EXISTS usuarios (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         usuario TEXT UNIQUE NOT NULL,
                         password TEXT NOT NULL,
@@ -141,12 +125,12 @@ pub fn run() {
                         activo INTEGER DEFAULT 1,
                         fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
                     );",
-                            kind: MigrationKind::Up,
-                        },
-                        Migration {
-                            version: 2,
-                            description: "create_other_tables",
-                            sql: "
+                    kind: MigrationKind::Up,
+                },
+                Migration {
+                    version: 2,
+                    description: "create_other_tables",
+                    sql: "
                     CREATE TABLE IF NOT EXISTS ppl (
                         id TEXT PRIMARY KEY,
                         nombre TEXT NOT NULL,
@@ -172,18 +156,16 @@ pub fn run() {
                         fecha_ingreso DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
                     ",
-                            kind: MigrationKind::Up,
-                        },
-                    ],
-                )
-                .build(),
-        )
+                    kind: MigrationKind::Up,
+                },
+            ])
+            .build())
         .invoke_handler(tauri::generate_handler![
             greet,
             crear_usuarios_defecto,
             validar_login,
             generar_credencial_pdf,
-            generar_etiqueta_libro_pdf
+            generar_etiqueta_libro_pdf,
             verificar_sanciones_activas,
             crear_sancion,
             anular_sancion

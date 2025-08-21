@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 import { checkUserPermissions, showPermissionDeniedMessage } from '../permissions';
 
 export function setupFormularioSancion() {
@@ -9,7 +13,11 @@ export function setupFormularioSancion() {
   
   console.log('Formulario de sanciones listo');
 }
+<<<<<<< HEAD
+=======
+=======
 
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
 import { crearSancion, anularSancion } from '../apiSanciones';
 import Database from "@tauri-apps/plugin-sql";
 
@@ -188,3 +196,7 @@ async function cargarSancionesActivas() {
 };
 
 console.log('Formulario Sanciones configurado');
+<<<<<<< HEAD
+>>>>>>> origin/main
+=======
+>>>>>>> 123e892a377f375975207033a562af8b89b10b6c
