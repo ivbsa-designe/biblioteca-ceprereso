@@ -79,12 +79,8 @@ export default function App() {
         );
       case 'dashboard':
       default:
-        return (
-          <Dashboard 
-            usuario={usuario!}
-            onLogout={() => setUsuario(null)}
-            onNavigate={handleNavigate}
-          />
+          return (
+            <Dashboard />
         );
     }
   };
@@ -92,15 +88,7 @@ export default function App() {
   if (usuario) {
     return renderCurrentSection();
     return (
-      <Dashboard
-        usuario={usuario}
-        onLogout={() => {
-          // Limpiar sessionStorage al hacer logout
-          sessionStorage.removeItem('currentUser');
-          setUsuario(null);
-        }}
-        onNavigate={() => {}}
-      />
+    <Dashboard />
     );
   }
 

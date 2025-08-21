@@ -36,11 +36,6 @@
       "default": {
         "loadSqlite": true
       }
-    },
-    "dialog": {
-      "default": {
-        "all": true
-      }
-    }
+  }
   }
 }

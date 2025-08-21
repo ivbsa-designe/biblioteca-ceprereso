@@ -6,40 +6,30 @@ use pdf_generator::{CredentialData, BookData, generate_credential_pdf, generate_
 // Comando simple para crear usuarios por defecto
 #[tauri::command]
 async fn crear_usuarios_defecto() -> Result<(), String> {
+    use bcrypt::{hash, DEFAULT_COST};
+    let usuarios = vec![
+        ("admin", "admin123", "admin"),
+        ("operador_matutino", "operador1", "operador"),
+        ("operador_vespertino", "operador2", "operador"),
+        ("bibliotecario_matutino", "operador1", "bibliotecario"),
+        ("bibliotecario_vespertino", "operador2", "bibliotecario")
+    ];
+    for (usuario, password, rol) in usuarios {
+        let hash_pw = hash(password, DEFAULT_COST).map_err(|e| e.to_string())?;
+        // La lógica de inserción debe hacerse desde el frontend usando el plugin SQL
+    }
     Ok(())
 }
 
 // Comando para validar login
 #[tauri::command]
 async fn validar_login(usuario: String, password: String) -> Result<serde_json::Value, String> {
-    // Validación hardcodeada por ahora para probar
-    if (usuario == "admin" && password == "admin123")
-        || (usuario == "operador_matutino" && password == "operador1")
-        || (usuario == "operador_vespertino" && password == "operador2") {
-        Ok(serde_json::json!({
-            "success": true,
-            "user": {
-                "id": 1,
-                "usuario": usuario,
-                "rol": "admin"
-            }
-        }))
-    } else if (usuario == "bibliotecario_matutino" && password == "operador1") ||
-              (usuario == "bibliotecario_vespertino" && password == "operador2") {
-        Ok(serde_json::json!({
-            "success": true,
-            "user": {
-                "id": 2,
-                "usuario": usuario,
-                "rol": "bibliotecario"
-            }
-        }))
-    } else {
-        Ok(serde_json::json!({
-            "success": false,
-            "message": "Usuario o contraseña incorrectos"
-        }))
-    }
+    use bcrypt::{verify};
+    // La consulta SQL debe hacerse desde el frontend usando el plugin SQL
+    Ok(serde_json::json!({
+        "success": false,
+        "message": "Implementar consulta desde el frontend"
+    }))
 }
 
 // Comando para verificar sanciones activas
@@ -120,8 +110,8 @@ pub fn run() {
                     sql: "CREATE TABLE IF NOT EXISTS usuarios (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         usuario TEXT UNIQUE NOT NULL,
-                        password TEXT NOT NULL,
-                        rol TEXT NOT NULL CHECK(rol IN ('admin', 'bibliotecario')),
+                        password_hash TEXT NOT NULL,
+                        rol TEXT NOT NULL CHECK(rol IN ('admin', 'operador', 'bibliotecario')),
                         activo INTEGER DEFAULT 1,
                         fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
                     );",
